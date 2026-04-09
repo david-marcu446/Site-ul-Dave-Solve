@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dave Solve – Automatizări AI & Site-uri Profesionale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral: #E8563A;
+      --coral-dark: #c94525;
+      --coral-light: #fdf1ee;
+      --dark: #1a1a1a;
+      --gray: #6b7280;
+      --gray-light: #f9fafb;
+      --border: #e5e7eb;
+      --white: #ffffff;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--dark);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .logo span { color: var(--coral); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--coral); }
+
+    .nav-cta {
+      background: var(--coral);
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: 8px;
+      transition: background .2s !important;
+    }
+
+    .nav-cta:hover { background: var(--coral-dark) !important; color: var(--white) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 96px 24px 80px;
+      text-align: center;
+      background: linear-gradient(180deg, #fff 0%, var(--coral-light) 100%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--coral);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .6; transform: scale(1.3); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5.5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 .accent {
+      background: linear-gradient(135deg, #ffb347 0%, #E8563A 55%, #c94525 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 22px rgba(232, 86, 58, 0.55));
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--gray);
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--coral);
+      color: var(--white);
+      padding: 14px 32px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: var(--coral-dark); transform: translateY(-1px); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--dark);
+      padding: 14px 32px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border: 2px solid var(--border);
+      cursor: pointer;
+      transition: border-color .2s, transform .15s;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover { border-color: var(--coral); color: var(--coral); transform: translateY(-1px); }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      margin-top: 56px;
+      flex-wrap: wrap;
+    }
+
+    .stat { text-align: center; }
+    .stat-num { font-size: 2rem; font-weight: 800; color: var(--coral); }
+    .stat-label { font-size: 0.85rem; color: var(--gray); margin-top: 2px; }
+
+    /* ── SECTIONS ── */
+    section { padding: 80px 24px; }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      display: inline-block;
+      background: var(--coral-light);
+      color: var(--coral);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-sub {
+      color: var(--gray);
+      font-size: 1.05rem;
+      max-width: 520px;
+    }
+
+    .section-header { margin-bottom: 56px; }
+    .section-header.centered { text-align: center; }
+    .section-header.centered .section-sub { margin: 0 auto; }
+
+    /* ── SERVICES ── */
+    .services { background: var(--gray-light); }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+    .card-icon {
+      width: 52px; height: 52px;
+      background: var(--coral-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+    .card p { color: var(--gray); font-size: 0.92rem; line-height: 1.65; }
+
+    .card-tag {
+      display: inline-block;
+      background: var(--coral-light);
+      color: var(--coral);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-top: 16px;
+    }
+
+    /* ── WHY ── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) { .why-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+    .why-features { display: flex; flex-direction: column; gap: 28px; }
+
+    .why-feature {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .why-icon {
+      width: 44px; height: 44px; min-width: 44px;
+      background: var(--coral-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .why-feature h4 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .why-feature p { color: var(--gray); font-size: 0.9rem; }
+
+    .why-visual {
+      background: linear-gradient(135deg, var(--coral) 0%, #ff8c5a 100%);
+      border-radius: 20px;
+      padding: 40px 32px;
+      color: white;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .why-visual h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 24px; }
+
+    .why-step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .step-num {
+      width: 32px; height: 32px; min-width: 32px;
+      background: rgba(255,255,255,0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .step-text { font-size: 0.95rem; opacity: .92; }
+
+    /* ── PRICING ── */
+    .pricing { background: var(--gray-light); }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .price-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      border: 2px solid var(--border);
+      position: relative;
+      transition: transform .2s;
+    }
+
+    .price-card:hover { transform: translateY(-4px); }
+
+    .price-card.featured {
+      border-color: var(--coral);
+      box-shadow: 0 0 0 4px rgba(232,86,58,.08);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--coral);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 999px;
+    }
+
+    .price-name { font-size: 0.85rem; font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px; }
+    .price-amount { font-size: 3rem; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+    .price-amount span { font-size: 1.1rem; font-weight: 500; color: var(--gray); }
+    .price-desc { color: var(--gray); font-size: 0.88rem; margin-bottom: 28px; }
+
+    .price-features { list-style: none; margin-bottom: 32px; }
+    .price-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.92rem;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .price-features li:last-child { border-bottom: none; }
+    .check { color: var(--coral); font-size: 1rem; font-weight: 700; }
+
+    /* ── PRICING CALL BOX ── */
+    .pricing-call-box {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--white);
+      border: 2px solid var(--coral);
+      border-radius: 20px;
+      padding: 56px 48px;
+      text-align: center;
+      box-shadow: 0 0 0 6px rgba(232,86,58,.07), var(--shadow-lg);
+    }
+
+    .pricing-call-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .pricing-call-box h3 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .pricing-call-box > p {
+      color: var(--gray);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 36px;
+    }
+
+    .pricing-call-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 380px;
+      margin: 0 auto 36px;
+      text-align: left;
+    }
+
+    .pricing-call-step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 500;
+      font-size: 0.97rem;
+    }
+
+    .step-circle {
+      width: 32px; height: 32px; min-width: 32px;
+      background: var(--coral);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .pricing-call-box { padding: 36px 24px; }
+      .pricing-call-box h3 { font-size: 1.4rem; }
+    }
+
+    /* ── PROFILE ── */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) { .profile-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; } }
+
+    .avatar-wrap { text-align: center; }
+
+    .avatar {
+      width: 420px; height: 530px;
+      border-radius: 16px;
+      border: 4px solid var(--coral);
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      margin: 0 auto 16px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    @media (max-width: 480px) {
+      .avatar { width: 100%; max-width: 320px; height: 400px; }
+    }
+
+    .avatar-name { font-weight: 700; font-size: 1.1rem; }
+    .avatar-role { color: var(--gray); font-size: 0.88rem; }
+
+    .profile-content blockquote {
+      font-size: 1.1rem;
+      color: var(--gray);
+      line-height: 1.75;
+      border-left: 3px solid var(--coral);
+      padding-left: 20px;
+      margin-bottom: 28px;
+    }
+
+    .profile-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .tag {
+      background: var(--coral-light);
+      color: var(--coral);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+
+    /* ── FAQ ── */
+    .faq-list { max-width: 720px; margin: 0 auto; }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.97rem;
+      transition: background .15s;
+    }
+
+    .faq-question:hover { background: var(--gray-light); }
+
+    .faq-toggle {
+      width: 28px; height: 28px; min-width: 28px;
+      background: var(--coral-light);
+      color: var(--coral);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      transition: transform .3s;
+    }
+
+    .faq-item.open .faq-toggle { transform: rotate(45deg); }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease, padding .3s;
+      color: var(--gray);
+      font-size: 0.93rem;
+      line-height: 1.7;
+      padding: 0 24px;
+    }
+
+    .faq-item.open .faq-answer { max-height: 300px; padding: 0 24px 20px; }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--gray-light); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+    .contact-info { display: flex; flex-direction: column; gap: 20px; }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--white);
+      padding: 18px 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .contact-item-icon {
+      width: 44px; height: 44px;
+      background: var(--coral-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      min-width: 44px;
+    }
+
+    .contact-item h4 { font-size: 0.85rem; color: var(--gray); margin-bottom: 2px; }
+    .contact-item p { font-weight: 600; font-size: 0.95rem; }
+
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    label { font-size: 0.85rem; font-weight: 600; color: var(--dark); }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: var(--white);
+      color: var(--dark);
+      transition: border-color .2s;
+      outline: none;
+    }
+
+    input:focus, textarea:focus, select:focus { border-color: var(--coral); }
+
+    textarea { resize: vertical; min-height: 120px; }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--coral) 0%, #ff8c5a 100%);
+      padding: 72px 24px;
+      text-align: center;
+      color: white;
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-banner p { font-size: 1.1rem; opacity: .88; margin-bottom: 36px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+    .btn-white {
+      background: white;
+      color: var(--coral);
+      padding: 14px 36px;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+      transition: transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.2); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: #9ca3af;
+      padding: 48px 24px 32px;
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+    .footer-brand .logo { color: white; font-size: 1.3rem; }
+    .footer-brand p { font-size: 0.9rem; line-height: 1.65; margin-top: 12px; }
+
+    footer h4 { color: white; font-size: 0.9rem; font-weight: 600; margin-bottom: 16px; }
+
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { color: #9ca3af; text-decoration: none; font-size: 0.88rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--coral); }
+
+    .footer-bottom {
+      border-top: 1px solid #374151;
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.83rem;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-socials { display: flex; gap: 16px; }
+    .footer-socials a {
+      width: 36px; height: 36px;
+      background: #374151;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background .2s, color .2s;
+    }
+    .footer-socials a:hover { background: var(--coral); color: white; }
+
+    /* ── RESPONSIVE NAV ── */
+    .nav-toggle { display: none; background: none; border: none; font-size: 1.4rem; cursor: pointer; padding: 8px; }
+
+    @media (max-width: 768px) {
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 16px 24px 24px;
+        border-bottom: 1px solid var(--border);
+        gap: 0;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { border-bottom: 1px solid var(--border); }
+      .nav-links li:last-child { border-bottom: none; }
+      .nav-links a { display: block; padding: 12px 0; }
+      .nav-cta { margin-top: 8px; text-align: center; border-radius: 8px; }
+    }
+
+    /* ── CONTAINER SCROLL ANIMATION ── */
+    .scroll-anim-section {
+      height: 900px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--coral-light) 0%, #fff 100%);
+      padding: 0;
+    }
+
+    .scroll-anim-inner {
+      width: 100%;
+      max-width: 1100px;
+      padding: 60px 24px 0;
+      perspective: 1000px;
+      position: sticky;
+      top: 80px;
+    }
+
+    .scroll-anim-title {
+      text-align: center;
+      margin-bottom: 40px;
+      will-change: transform;
+    }
+
+    .scroll-anim-title h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .scroll-anim-title h2 .accent { color: var(--coral); }
+
+    .scroll-anim-title p {
+      color: var(--gray);
+      font-size: 1rem;
+    }
+
+    .scroll-anim-card {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #222222;
+      border-radius: 24px;
+      border: 3px solid #6C6C6C;
+      padding: 10px;
+      box-shadow:
+        0 0 #0000004d,
+        0 9px 20px #0000004a,
+        0 37px 37px #00000042,
+        0 84px 50px #00000026,
+        0 149px 60px #0000000a;
+      will-change: transform;
+      transform-origin: top center;
+    }
+
+    .scroll-anim-card-inner {
+      width: 100%;
+      height: 460px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #18181b;
+      position: relative;
+    }
+
+    .scroll-anim-card-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    /* overlay labels on mockup */
+    .mockup-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      padding: 28px 32px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.65) 0%, transparent 60%);
+    }
+
+    .mockup-tags {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mockup-tag {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .mockup-tag.coral { background: var(--coral); border-color: transparent; }
+
+    @media (max-width: 768px) {
+      .scroll-anim-section { height: 700px; }
+      .scroll-anim-card-inner { height: 300px; }
+      .scroll-anim-inner { padding: 32px 16px 0; }
+    }
+
+    /* ── GRADIENT BUTTON ── */
+    @property --pos-x        { syntax: '<percentage>'; initial-value: 11.14%;  inherits: false; }
+    @property --pos-y        { syntax: '<percentage>'; initial-value: 140%;    inherits: false; }
+    @property --spread-x     { syntax: '<percentage>'; initial-value: 150%;    inherits: false; }
+    @property --spread-y     { syntax: '<percentage>'; initial-value: 180.06%; inherits: false; }
+    @property --color-1      { syntax: '<color>';      initial-value: #000;    inherits: false; }
+    @property --color-2      { syntax: '<color>';      initial-value: #08012c; inherits: false; }
+    @property --color-3      { syntax: '<color>';      initial-value: #4e1e40; inherits: false; }
+    @property --color-4      { syntax: '<color>';      initial-value: #70464e; inherits: false; }
+    @property --color-5      { syntax: '<color>';      initial-value: #88394c; inherits: false; }
+    @property --border-angle { syntax: '<angle>';      initial-value: 20deg;   inherits: true;  }
+    @property --border-color-1 { syntax: '<color>';   initial-value: hsla(340,75%,60%,.2);  inherits: true; }
+    @property --border-color-2 { syntax: '<color>';   initial-value: hsla(340,75%,40%,.75); inherits: true; }
+    @property --stop-1 { syntax: '<percentage>'; initial-value: 37.35%; inherits: false; }
+    @property --stop-2 { syntax: '<percentage>'; initial-value: 61.36%; inherits: false; }
+    @property --stop-3 { syntax: '<percentage>'; initial-value: 78.42%; inherits: false; }
+    @property --stop-4 { syntax: '<percentage>'; initial-value: 89.52%; inherits: false; }
+    @property --stop-5 { syntax: '<percentage>'; initial-value: 100%;   inherits: false; }
+
+    .gradient-button {
+      position: relative;
+      appearance: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff !important;
+      font-weight: 700;
+      text-decoration: none;
+      border: none !important;
+      border-radius: 11px !important;
+      background: radial-gradient(
+        var(--spread-x) var(--spread-y) at var(--pos-x) var(--pos-y),
+        var(--color-1) var(--stop-1),
+        var(--color-2) var(--stop-2),
+        var(--color-3) var(--stop-3),
+        var(--color-4) var(--stop-4),
+        var(--color-5) var(--stop-5)
+      ) !important;
+      box-shadow: none !important;
+      transition:
+        --pos-x .5s, --pos-y .5s, --spread-x .5s, --spread-y .5s,
+        --color-1 .5s, --color-2 .5s, --color-3 .5s, --color-4 .5s, --color-5 .5s,
+        --border-angle .5s, --border-color-1 .5s, --border-color-2 .5s,
+        --stop-1 .5s, --stop-2 .5s, --stop-3 .5s, --stop-4 .5s, --stop-5 .5s,
+        transform .15s !important;
+    }
+
+    .gradient-button::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(var(--border-angle), var(--border-color-1), var(--border-color-2));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .gradient-button:hover {
+      --pos-x: 0%;
+      --pos-y: 91.51%;
+      --spread-x: 120.24%;
+      --spread-y: 103.18%;
+      --color-1: #c96287;
+      --color-2: #c66c64;
+      --color-3: #cc7d23;
+      --color-4: #37140a;
+      --color-5: #000;
+      --border-angle: 190deg;
+      --border-color-1: hsla(340,78%,90%,.1);
+      --border-color-2: hsla(340,75%,90%,.6);
+      --stop-1: 0%;
+      --stop-2: 8.8%;
+      --stop-3: 21.44%;
+      --stop-4: 71.34%;
+      --stop-5: 85.76%;
+      transform: translateY(-1px) !important;
+      color: #ffffff !important;
+    }
+
+    /* ── GLOWING EFFECT (cards) ── */
+    .card {
+      position: relative;
+    }
+
+    .card-glow {
+      pointer-events: none;
+      position: absolute;
+      inset: -2px;
+      border-radius: 14px; /* slightly larger than card's 12px */
+      padding: 2px;        /* this becomes the visible border width */
+      background: conic-gradient(
+        from calc(var(--start, 0) * 1deg) at 50% 50%,
+        #dd7bbb 0%,
+        #d79f1e 20%,
+        #E8563A 35%,
+        #5a922c 50%,
+        #4c7894 70%,
+        #dd7bbb 100%
+      );
+      /* Mask trick: reveal only the padding ring (= border) */
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: var(--active, 0);
+      transition: opacity 0.35s ease;
+      z-index: 2;
+    }
+
+    /* Outer soft glow bloom */
+    .card-glow::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 16px;
+      background: inherit;
+      filter: blur(10px);
+      opacity: 0.45;
+      z-index: -1;
+    }
+
+    /* ── SMOKE BACKGROUND CANVAS ── */
+    #smoke-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -1;
+      display: block;
+    }
+
+    /* ── DARK THEME OVERRIDES ── */
+    body {
+      background: transparent;
+      color: #e2e8f0;
+    }
+
+    /* Re-map tokens */
+    :root {
+      --dark: #f1f5f9;
+      --gray: #94a3b8;
+      --gray-light: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.10);
+      --white: rgba(12,12,18,0.72);
+      --shadow: 0 4px 24px rgba(0,0,0,0.5);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.65);
+    }
+
+    /* Nav */
+    nav {
+      background: rgba(8,8,14,0.82) !important;
+      border-bottom-color: rgba(255,255,255,0.07) !important;
+    }
+    .logo { color: #f1f5f9 !important; }
+    .nav-links a { color: #94a3b8 !important; }
+    .nav-links a:hover { color: var(--coral) !important; }
+    .nav-links.open { background: rgba(8,8,14,0.96) !important; }
+
+    /* Hero */
+    .hero {
+      background: transparent !important;
+    }
+    .hero-badge {
+      background: rgba(255,255,255,0.07) !important;
+      border-color: rgba(255,255,255,0.12) !important;
+      color: #94a3b8 !important;
+    }
+    .hero h1 { color: #f1f5f9; }
+    .hero p { color: #94a3b8; }
+    .btn-secondary {
+      color: #e2e8f0 !important;
+      border-color: rgba(255,255,255,0.18) !important;
+    }
+    .btn-secondary:hover { color: var(--coral) !important; }
+    .stat-label { color: #94a3b8; }
+
+    /* Sections */
+    section, .services, .pricing, .contact, .why, .faq { background: transparent !important; }
+
+    /* Cards */
+    .card {
+      background: rgba(12,12,18,0.72) !important;
+      border-color: rgba(255,255,255,0.09) !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .card h3 { color: #f1f5f9; }
+    .card p { color: #94a3b8; }
+
+    /* Section headings */
+    .section-title { color: #f1f5f9; }
+    .section-sub { color: #94a3b8; }
+
+    /* Why section */
+    .why-feature h4 { color: #f1f5f9; }
+    .why-feature p { color: #94a3b8; }
+
+    /* Pricing call box */
+    .pricing-call-box {
+      background: rgba(12,12,18,0.75) !important;
+      border-color: var(--coral) !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .pricing-call-box h3 { color: #f1f5f9; }
+    .pricing-call-box > p { color: #94a3b8; }
+    .pricing-call-step { color: #e2e8f0; }
+
+    /* Profile */
+    .avatar-name { color: #f1f5f9; }
+    .avatar-role { color: #94a3b8; }
+    .profile-content blockquote { color: #94a3b8; }
+
+    /* FAQ */
+    .faq-item {
+      background: rgba(12,12,18,0.72) !important;
+      border-color: rgba(255,255,255,0.09) !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .faq-question { color: #f1f5f9; }
+    .faq-question:hover { background: rgba(255,255,255,0.04) !important; }
+    .faq-answer { color: #94a3b8; }
+
+    /* Contact */
+    .contact-item {
+      background: rgba(12,12,18,0.72) !important;
+      border-color: rgba(255,255,255,0.09) !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .contact-item h4 { color: #64748b; }
+    .contact-item p { color: #f1f5f9; }
+
+    /* Form fields */
+    input, textarea, select {
+      background: rgba(12,12,18,0.72) !important;
+      border-color: rgba(255,255,255,0.12) !important;
+      color: #f1f5f9 !important;
+    }
+    input::placeholder, textarea::placeholder { color: #475569; }
+    label { color: #cbd5e1; }
+
+    /* Scroll anim section */
+    .scroll-anim-section { background: transparent !important; }
+    .scroll-anim-title h2 { color: #f1f5f9; }
+    .scroll-anim-title p { color: #94a3b8; }
+
+    /* Footer */
+    footer {
+      background: rgba(4,4,8,0.88) !important;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    footer h4 { color: #e2e8f0 !important; }
+    .footer-brand p { color: #64748b; }
+    .footer-links a { color: #64748b !important; }
+    .footer-links a:hover { color: var(--coral) !important; }
+    .footer-bottom { color: #4b5563; border-top-color: rgba(255,255,255,0.07); }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .5s, transform .5s;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+  </style>
+</head>
+<body>
+
+<canvas id="smoke-bg" aria-hidden="true"></canvas>
+
+<!-- ═══════════════ NAV ═══════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Dave <span>Solve</span></a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="#servicii">Servicii</a></li>
+      <li><a href="#de-ce">De ce Dave?</a></li>
+      <li><a href="#preturi">Prețuri</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="https://cal.com/david-marcu-fc2u1p" target="_blank" rel="noopener" class="nav-cta gradient-button">Contactează-mă</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+<div class="hero-badge">
+    <span class="dot"></span>
+    Disponibil pentru proiecte noi
+  </div>
+  <h1>
+    Dave Solve —<br />
+    <span class="accent">transformă afacerea ta</span><br />
+    cu AI & site-uri moderne
+  </h1>
+  <p>Automatizări inteligente cu AI și site-uri profesionale livrate rapid. Economisești timp, câștigi clienți.</p>
+  <div class="hero-btns">
+    <a href="#servicii" class="btn-primary">Descoperă serviciile</a>
+    <a href="https://cal.com/david-marcu-fc2u1p" target="_blank" rel="noopener" class="btn-secondary gradient-button">Vorbim gratuit →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Proiecte livrate</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">200€</div>
+      <div class="stat-label">Preț site de la</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">48h</div>
+      <div class="stat-label">Livrare rapidă</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Satisfacție garantată</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SCROLL ANIMATION ═══════════════ -->
+<div class="scroll-anim-section" id="scroll-anim-section">
+  <div class="scroll-anim-inner">
+    <div class="scroll-anim-title" id="scroll-anim-title">
+      <span class="section-label">Cum funcționează</span>
+      <h2>De la idee la <span class="accent">rezultat concret</span><br />— totul în câteva zile</h2>
+      <p>Automatizări AI și site-uri profesionale care lucrează pentru tine non-stop.</p>
+    </div>
+    <div class="scroll-anim-card" id="scroll-anim-card">
+      <div class="scroll-anim-card-inner">
+        <img
+          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&q=80"
+          alt="AI Dashboard Preview"
+          draggable="false"
+        />
+        <div class="mockup-overlay">
+          <div class="mockup-tags">
+            <span class="mockup-tag coral">🤖 AI Activ</span>
+            <span class="mockup-tag">⚡ Automatizare</span>
+            <span class="mockup-tag">📊 Rapoarte Live</span>
+            <span class="mockup-tag">💬 Chatbot 24/7</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SERVICII ═══════════════ -->
+<section class="services" id="servicii">
+  <div class="container">
+    <div class="section-header centered fade-in">
+      <span class="section-label">Serviciile noastre</span>
+      <h2 class="section-title">Tot ce ai nevoie pentru afacerea ta</h2>
+      <p class="section-sub">De la automatizări AI la site-uri moderne — livrăm soluții care funcționează.</p>
+    </div>
+    <div class="cards">
+      <div class="card fade-in">
+        <div class="card-icon">🤖</div>
+        <h3>Automatizări AI</h3>
+        <p>Automatizăm procese repetitive: răspunsuri email, generare conținut, rapoarte, preluare comenzi — cu ajutorul AI-ului.</p>
+        <span class="card-tag">GPT · Make · n8n</span>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon">🌐</div>
+        <h3>Site-uri Profesionale</h3>
+        <p>Landing pages și site-uri de prezentare moderne, rapide și optimizate pentru mobil. Livrate în 48–72h.</p>
+        <span class="card-tag">de la 200€</span>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon">💬</div>
+        <h3>Chatbot AI pentru Afaceri</h3>
+        <p>Chatbot personalizat pe site-ul tău care răspunde clienților 24/7, preia comenzi și califică lead-uri automat.</p>
+        <span class="card-tag">Disponibil 24/7</span>
+      </div>
+      <div class="card fade-in">
+        <div class="card-icon">📈</div>
+        <h3>Fluxuri de Vânzări AI</h3>
+        <p>Sisteme automate de follow-up, emailuri personalizate și CRM inteligent care transformă lead-urile în clienți.</p>
+        <span class="card-tag">Conversii mai mari</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ DE CE ═══════════════ -->
+<section id="de-ce">
+  <div class="container">
+    <div class="why-grid">
+      <div>
+        <div class="section-header fade-in">
+          <span class="section-label">De ce Dave Solve?</span>
+          <h2 class="section-title">Rezultate reale,<br />nu promisiuni</h2>
+          <p class="section-sub">Lucrez direct cu tine, fără agenție intermediară. Fiecare soluție e construită specific pentru afacerea ta.</p>
+        </div>
+        <div class="why-features">
+          <div class="why-feature fade-in">
+            <div class="why-icon">⚡</div>
+            <div>
+              <h4>Livrare rapidă</h4>
+              <p>Site-urile sunt gata în 48–72h. Automatizările sunt implementate în maxim 1 săptămână.</p>
+            </div>
+          </div>
+          <div class="why-feature fade-in">
+            <div class="why-icon">🎯</div>
+            <div>
+              <h4>Soluții personalizate</h4>
+              <p>Nu template-uri generice. Fiecare proiect e adaptat nevoilor și industrie tale specifice.</p>
+            </div>
+          </div>
+          <div class="why-feature fade-in">
+            <div class="why-icon">💡</div>
+            <div>
+              <h4>Prețuri corecte</h4>
+              <p>Fără costuri ascunse. Prețul agreat la început rămâne același la final.</p>
+            </div>
+          </div>
+          <div class="why-feature fade-in">
+            <div class="why-icon">🔧</div>
+            <div>
+              <h4>Suport continuu</h4>
+              <p>Nu dispar după livrare. Rămân disponibil pentru modificări și suport tehnic.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="why-visual fade-in">
+        <h3>Cum funcționează?</h3>
+        <div class="why-step">
+          <div class="step-num">1</div>
+          <div class="step-text">Discuție gratuită — înțeleg exact ce ai nevoie</div>
+        </div>
+        <div class="why-step">
+          <div class="step-num">2</div>
+          <div class="step-text">Propun soluția potrivită și stabilim prețul</div>
+        </div>
+        <div class="why-step">
+          <div class="step-num">3</div>
+          <div class="step-text">Construiesc și livrezi — feedback la fiecare pas</div>
+        </div>
+        <div class="why-step">
+          <div class="step-num">4</div>
+          <div class="step-text">Lansare + suport post-livrare inclus</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PREȚURI ═══════════════ -->
+<section class="pricing" id="preturi">
+  <div class="container">
+    <div class="section-header centered fade-in">
+      <span class="section-label">Prețuri</span>
+      <h2 class="section-title">Transparent și corect</h2>
+
+    </div>
+    <div class="pricing-call-box fade-in">
+      <div class="pricing-call-icon">📞</div>
+      <h3>Prețul se stabilește împreună</h3>
+      <p>Fiecare proiect este unic. Nu cred în pachete fixe care nu se potrivesc nevoilor reale — de aceea prefer să discutăm direct, 1-la-1, să înțeleg exact ce vrei și să îți ofer un preț corect, personalizat.</p>
+      <div class="pricing-call-steps">
+        <div class="pricing-call-step">
+          <span class="step-circle">1</span>
+          <span>Programezi un apel gratuit</span>
+        </div>
+        <div class="pricing-call-step">
+          <span class="step-circle">2</span>
+          <span>Discutăm nevoile tale în detaliu</span>
+        </div>
+        <div class="pricing-call-step">
+          <span class="step-circle">3</span>
+          <span>Primești o ofertă clară și transparentă</span>
+        </div>
+      </div>
+      <a href="https://cal.com/david-marcu-fc2u1p" target="_blank" rel="noopener" class="btn-primary gradient-button" style="font-size:1.05rem;padding:16px 40px;">Programează apelul gratuit →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PROFIL ═══════════════ -->
+<section>
+  <div class="container">
+    <div class="profile-grid">
+      <div class="avatar-wrap fade-in">
+        <img class="avatar" src="David-41.jpg" alt="David Marcu" />
+        <div class="avatar-name">David Marcu</div>
+        <div class="avatar-role">AI & Web Solutions</div>
+      </div>
+      <div class="fade-in">
+        <span class="section-label">Despre mine</span>
+        <h2 class="section-title" style="margin-top:12px;">Cum știu că soluția mea se potrivește nevoilor tale?</h2>
+        <blockquote>
+          "Lucrez cu antreprenori, freelanceri și afaceri mici care vor să economisească timp și să crească. Nu vând produse generice — analizez fiecare situație în parte și construiesc ce are sens specific pentru tine. Dac-o soluție nu se potrivește, îți spun sincer."
+        </blockquote>
+        <div class="profile-tags">
+          <span class="tag">🤖 AI Automation</span>
+          <span class="tag">🌐 Web Development</span>
+          <span class="tag">⚙️ Make / n8n</span>
+          <span class="tag">💬 ChatGPT API</span>
+          <span class="tag">📊 CRM Integration</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FAQ ═══════════════ -->
+<section id="faq" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-header centered fade-in">
+      <span class="section-label">FAQ</span>
+      <h2 class="section-title">Întrebări frecvente</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Ce este o automatizare AI și cum mă ajută?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          O automatizare AI este un flux care face muncă repetitivă în locul tău: trimite emailuri automat, preia și procesează comenzi, generează rapoarte, răspunde la mesaje. Practic, AI-ul lucrează pentru tine 24/7 fără să obosească.
+        </div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          În cât timp îmi livrezi un site?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Un landing page standard este gata în 48–72 de ore de la momentul în care îmi oferi materialele (logo, text, imagini). Dacă ai nevoie de ceva mai complex, stabilim un termen realist împreună.
+        </div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Am nevoie de cunoștințe tehnice pentru a folosi automatizările?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Nu. Îți livrez totul configurat și funcțional. Includ și un scurt training astfel încât să înțelegi cum funcționează, și rămân disponibil dacă ai întrebări sau vrei modificări.
+        </div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Ce se întâmplă după ce îmi livrezi proiectul?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Rămân disponibil pentru suport tehnic. Fiecare pachet include o perioadă de suport gratuit (1–3 luni în funcție de pachet). După aceea, orice modificare se poate discuta separat.
+        </div>
+      </div>
+      <div class="faq-item fade-in">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          Lucrezi cu orice tip de afacere?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+          Da — am lucrat cu saloane, restaurante, coaches, e-commerce, agenții și freelanceri. Dacă ai o afacere și vrei să economisești timp sau să atragi mai mulți clienți online, pot ajuta.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CTA ═══════════════ -->
+<section class="cta-banner">
+  <div class="container">
+    <h2>Gata să transformi afacerea ta?</h2>
+    <p>Prima discuție e gratuită. Îți spun exact ce soluție ți se potrivește și cât costă.</p>
+    <a href="https://cal.com/david-marcu-fc2u1p" target="_blank" rel="noopener" class="btn-white gradient-button">Programează discuția gratuită</a>
+  </div>
+</section>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="section-header centered fade-in">
+      <span class="section-label">Contact</span>
+      <h2 class="section-title">Contactează-mă</h2>
+      <p class="section-sub">Scrie-mi și îți răspund în maxim 24h cu o propunere clară.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info fade-in">
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div>
+            <h4>Email</h4>
+            <p>davesolve25@gmail.com</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📱</div>
+          <div>
+            <h4>WhatsApp / Telefon</h4>
+            <p>0752 937 440</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div>
+            <h4>Locație</h4>
+            <p>România (lucrez remote)</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🕐</div>
+          <div>
+            <h4>Program</h4>
+            <p>Luni–Vineri, 9:00–18:00</p>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form fade-in" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Nume</label>
+            <input type="text" id="name" placeholder="Numele tău" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="email@exemplu.ro" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Mesaj</label>
+          <textarea id="message" placeholder="Spune-mi pe scurt despre afacerea ta și ce vrei să rezolvi..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary gradient-button" style="width:100%;font-size:1rem;padding:16px;">
+          Trimite mesajul →
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">Dave <span>Solve</span></a>
+        <p>Automatizări AI și site-uri profesionale pentru afaceri din România care vor să crească mai rapid și mai inteligent.</p>
+      </div>
+      <div>
+        <h4>Servicii</h4>
+        <ul class="footer-links">
+          <li><a href="#servicii">Site-uri de prezentare</a></li>
+          <li><a href="#servicii">Automatizări AI</a></li>
+          <li><a href="#servicii">Chatbot AI</a></li>
+          <li><a href="#servicii">Fluxuri de vânzări</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Link-uri rapide</h4>
+        <ul class="footer-links">
+          <li><a href="#de-ce">De ce Dave?</a></li>
+          <li><a href="#preturi">Prețuri</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Dave Solve. Toate drepturile rezervate.</span>
+      <div class="footer-socials">
+        <a href="#" title="Instagram">📸</a>
+        <a href="#" title="LinkedIn">💼</a>
+        <a href="#" title="TikTok">🎵</a>
+        <a href="#" title="WhatsApp">💬</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── CONTAINER SCROLL ANIMATION ──
+  (function () {
+    const section = document.getElementById('scroll-anim-section');
+    const card    = document.getElementById('scroll-anim-card');
+    const title   = document.getElementById('scroll-anim-title');
+    if (!section || !card || !title) return;
+
+    const isMobile = () => window.innerWidth <= 768;
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function clamp(val, min, max) { return Math.min(Math.max(val, min), max); }
+
+    function onScroll() {
+      const rect   = section.getBoundingClientRect();
+      const total  = section.offsetHeight - window.innerHeight;
+      // progress 0 → 1 as section scrolls through viewport
+      const raw    = -rect.top / (total || 1);
+      const prog   = clamp(raw, 0, 1);
+
+      // rotateX: 20 → 0
+      const rotateX = lerp(20, 0, prog);
+
+      // scale: 1.05 → 1  (mobile: 0.7 → 0.9)
+      const [scaleStart, scaleEnd] = isMobile() ? [0.7, 0.9] : [1.05, 1];
+      const scale = lerp(scaleStart, scaleEnd, prog);
+
+      // translateY title: 0 → -80px
+      const ty = lerp(0, -80, prog);
+
+      card.style.transform  = `rotateX(${rotateX}deg) scale(${scale})`;
+      title.style.transform = `translateY(${ty}px)`;
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // init on load
+  })();
+
+  // FAQ toggle
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    const text = `Bună, David!\n\nNume: ${name}\nEmail: ${email}\n\nMesaj:\n${message}`;
+    window.open('https://wa.me/40752937440?text=' + encodeURIComponent(text), '_blank');
+  }
+
+  // Smooth nav close on link click (mobile)
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.remove('open');
+    });
+  });
+
+  // ══════════════════════════════════════════
+  // GLOWING EFFECT — mouse-tracking border glow
+  // ══════════════════════════════════════════
+  (function () {
+    // Inject .card-glow div into every .card
+    document.querySelectorAll('.card').forEach(card => {
+      const glow = document.createElement('div');
+      glow.className = 'card-glow';
+      card.prepend(glow);
+    });
+
+    const PROXIMITY   = 80;   // px — how close mouse must be to activate
+    const SPREAD      = 40;   // degrees — arc width of the spotlight
+    const LERP_FACTOR = 0.12; // smoothing (lower = smoother)
+
+    // Per-card state for smooth angle lerp
+    const state = new WeakMap();
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+    function shortAngleDiff(a, b) { return ((b - a + 180) % 360) - 180; }
+
+    function tick() {
+      document.querySelectorAll('.card').forEach(card => {
+        const s = state.get(card);
+        if (!s) return;
+
+        // Smooth lerp toward target angle
+        const diff = shortAngleDiff(s.currentAngle, s.targetAngle);
+        s.currentAngle += diff * LERP_FACTOR;
+        card.style.setProperty('--start', s.currentAngle.toFixed(2));
+      });
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    document.addEventListener('mousemove', (e) => {
+      const mx = e.clientX, my = e.clientY;
+
+      document.querySelectorAll('.card').forEach(card => {
+        const rect   = card.getBoundingClientRect();
+        const cx     = rect.left + rect.width  * 0.5;
+        const cy     = rect.top  + rect.height * 0.5;
+
+        // Proximity check
+        const near =
+          mx > rect.left   - PROXIMITY &&
+          mx < rect.right  + PROXIMITY &&
+          my > rect.top    - PROXIMITY &&
+          my < rect.bottom + PROXIMITY;
+
+        // Inactive centre zone (1% radius — effectively off)
+        const dist         = Math.hypot(mx - cx, my - cy);
+        const inactiveR    = 0.5 * Math.min(rect.width, rect.height) * 0.01;
+        const tooClose     = dist < inactiveR;
+
+        const active = near && !tooClose ? 1 : 0;
+        card.style.setProperty('--active', active);
+
+        if (!active) return;
+
+        // Target angle toward mouse
+        const targetAngle =
+          Math.atan2(my - cy, mx - cx) * (180 / Math.PI) + 90;
+
+        if (!state.has(card)) {
+          state.set(card, { currentAngle: targetAngle, targetAngle });
+        } else {
+          state.get(card).targetAngle = targetAngle;
+        }
+      });
+    }, { passive: true });
+  })();
+
+  // ══════════════════════════════════════════
+  // SMOKE BACKGROUND — WebGL2 shader renderer
+  // ══════════════════════════════════════════
+  (function () {
+    const canvas = document.getElementById('smoke-bg');
+    if (!canvas) return;
+
+    const gl = canvas.getContext('webgl2');
+    if (!gl) { console.warn('WebGL2 not supported'); return; }
+
+    // ── Shaders ──────────────────────────────
+    const VERT = `#version 300 es
+precision highp float;
+in vec4 position;
+void main(){ gl_Position = position; }`;
+
+    const FRAG = `#version 300 es
+precision highp float;
+out vec4 O;
+uniform float time;
+uniform vec2 resolution;
+uniform vec3 u_color;
+
+#define FC gl_FragCoord.xy
+#define R resolution
+#define T (time+660.)
+
+float rnd(vec2 p){p=fract(p*vec2(12.9898,78.233));p+=dot(p,p+34.56);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p),u=f*f*(3.-2.*f);return mix(mix(rnd(i),rnd(i+vec2(1,0)),u.x),mix(rnd(i+vec2(0,1)),rnd(i+1.),u.x),u.y);}
+float fbm(vec2 p){float t=.0,a=1.;for(int i=0;i<5;i++){t+=a*noise(p);p*=mat2(1,-1.2,.2,1.2)*2.;a*=.5;}return t;}
+
+void main(){
+  vec2 uv=(FC-.5*R)/R.y;
+  vec3 col=vec3(1);
+  uv.x+=.25;
+  uv*=vec2(2,1);
+  float n=fbm(uv*.28-vec2(T*.01,0));
+  n=noise(uv*3.+n*2.);
+  col.r-=fbm(uv+vec2(0,T*.015)+n);
+  col.g-=fbm(uv*1.003+vec2(0,T*.015)+n+.003);
+  col.b-=fbm(uv*1.006+vec2(0,T*.015)+n+.006);
+  col=mix(col, u_color, dot(col,vec3(.21,.71,.07)));
+  col=mix(vec3(.08),col,min(time*.1,1.));
+  col=clamp(col,.08,1.);
+  O=vec4(col,1);
+}`;
+
+    // ── Compile helpers ──────────────────────
+    function compileShader(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS))
+        console.error('Shader error:', gl.getShaderInfoLog(s));
+      return s;
+    }
+
+    const vs  = compileShader(gl.VERTEX_SHADER,   VERT);
+    const fs  = compileShader(gl.FRAGMENT_SHADER, FRAG);
+    const prg = gl.createProgram();
+    gl.attachShader(prg, vs);
+    gl.attachShader(prg, fs);
+    gl.linkProgram(prg);
+    if (!gl.getProgramParameter(prg, gl.LINK_STATUS))
+      console.error('Program error:', gl.getProgramInfoLog(prg));
+
+    // ── Geometry (full-screen quad) ──────────
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,1,-1,-1,1,1,1,-1]), gl.STATIC_DRAW);
+    const posLoc = gl.getAttribLocation(prg, 'position');
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+    // ── Uniform locations ────────────────────
+    const uRes   = gl.getUniformLocation(prg, 'resolution');
+    const uTime  = gl.getUniformLocation(prg, 'time');
+    const uColor = gl.getUniformLocation(prg, 'u_color');
+
+    // ── Smoke color: coral brand color ───────
+    function hexToRgb(hex) {
+      const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return r ? [parseInt(r[1],16)/255, parseInt(r[2],16)/255, parseInt(r[3],16)/255] : [0.5,0.5,0.5];
+    }
+    const smokeColor = hexToRgb('#E8563A'); // coral brand colour
+
+    // ── Resize ───────────────────────────────
+    function resize() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width  = window.innerWidth  * dpr;
+      canvas.height = window.innerHeight * dpr;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    // ── Render loop ──────────────────────────
+    function render(now) {
+      gl.useProgram(prg);
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, now * 1e-3);
+      gl.uniform3fv(uColor, smokeColor);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+  })();
+
+</script>
+</body>
+</html>
