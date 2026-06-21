@@ -1154,7 +1154,7 @@
       <li><a href="#de-ce">De ce Dave?</a></li>
       <li><a href="#preturi">Prețuri</a></li>
       <li><a href="#faq">FAQ</a></li>
-      <li><a href="https://cal.com/david-marcu-fc2u1p" target="_blank" rel="noopener" class="nav-cta gradient-button">Contactează-mă</a></li>
+      <li><a href="https://cal.com/david-marcu-fc2u1p" rel="noopener" data-cal-link="david-marcu-fc2u1p" class="nav-cta gradient-button">Contactează-mă</a></li>
     </ul>
   </div>
 </nav>
@@ -1173,7 +1173,7 @@
   <p>Automatizări inteligente cu AI și site-uri profesionale livrate rapid. Economisești timp, câștigi clienți.</p>
   <div class="hero-btns">
     <a href="#servicii" class="btn-primary">Descoperă serviciile</a>
-    <a href="https://cal.com/david-marcu-fc2u1p" target="_blank" rel="noopener" class="btn-secondary gradient-button">Vorbim gratuit →</a>
+    <a href="https://cal.com/david-marcu-fc2u1p" rel="noopener" data-cal-link="david-marcu-fc2u1p" class="btn-secondary gradient-button">Vorbim gratuit →</a>
   </div>
   <div class="hero-stats">
     <div class="stat">
@@ -1350,7 +1350,7 @@
           <span>Primești o ofertă clară și transparentă</span>
         </div>
       </div>
-      <a href="https://cal.com/david-marcu-fc2u1p" target="_blank" rel="noopener" class="btn-primary gradient-button" style="font-size:1.05rem;padding:16px 40px;">Programează apelul gratuit →</a>
+      <a href="https://cal.com/david-marcu-fc2u1p" rel="noopener" data-cal-link="david-marcu-fc2u1p" class="btn-primary gradient-button" style="font-size:1.05rem;padding:16px 40px;">Programează apelul gratuit →</a>
     </div>
   </div>
 </section>
@@ -1444,7 +1444,7 @@
   <div class="container">
     <h2>Gata să transformi afacerea ta?</h2>
     <p>Prima discuție e gratuită. Îți spun exact ce soluție ți se potrivește și cât costă.</p>
-    <a href="https://cal.com/david-marcu-fc2u1p" target="_blank" rel="noopener" class="btn-white gradient-button">Programează discuția gratuită</a>
+    <a href="https://cal.com/david-marcu-fc2u1p" rel="noopener" data-cal-link="david-marcu-fc2u1p" class="btn-white gradient-button">Programează discuția gratuită</a>
   </div>
 </section>
 
@@ -1811,9 +1811,11 @@ void main(){
 </script>
 <script src="https://chatbot-davesolve.vercel.app/widget.js" defer></script>
 
-<!-- Meta Pixel: Schedule event on return from cal.com (?booking=success) -->
-<script>
-  if (new URLSearchParams(location.search).get('booking') === 'success' && window.fbq) fbq('track', 'Schedule');
+<!-- Cal.com embed (popup) + Meta Pixel Schedule event on bookingSuccessful -->
+<script type="text/javascript">
+(function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+Cal("init", {origin:"https://cal.com"});
+Cal("on", { action: "bookingSuccessful", callback: () => { if (window.fbq) fbq('track', 'Schedule'); } });
 </script>
 </body>
 </html>
