@@ -739,116 +739,6 @@
       .nav-cta { margin-top: 8px; text-align: center; border-radius: 8px; }
     }
 
-    /* ── CONTAINER SCROLL ANIMATION ── */
-    .scroll-anim-section {
-      height: 900px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      overflow: hidden;
-      background: linear-gradient(180deg, var(--coral-light) 0%, #fff 100%);
-      padding: 0;
-    }
-
-    .scroll-anim-inner {
-      width: 100%;
-      max-width: 1100px;
-      padding: 60px 24px 0;
-      perspective: 1000px;
-      position: sticky;
-      top: 80px;
-    }
-
-    .scroll-anim-title {
-      text-align: center;
-      margin-bottom: 40px;
-      will-change: transform;
-    }
-
-    .scroll-anim-title h2 {
-      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--dark);
-      margin-bottom: 10px;
-    }
-
-    .scroll-anim-title h2 .accent { color: var(--coral); }
-
-    .scroll-anim-title p {
-      color: var(--gray);
-      font-size: 1rem;
-    }
-
-    .scroll-anim-card {
-      max-width: 960px;
-      margin: 0 auto;
-      background: #222222;
-      border-radius: 24px;
-      border: 3px solid #6C6C6C;
-      padding: 10px;
-      box-shadow:
-        0 0 #0000004d,
-        0 9px 20px #0000004a,
-        0 37px 37px #00000042,
-        0 84px 50px #00000026,
-        0 149px 60px #0000000a;
-      will-change: transform;
-      transform-origin: top center;
-    }
-
-    .scroll-anim-card-inner {
-      width: 100%;
-      height: 460px;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #18181b;
-      position: relative;
-    }
-
-    .scroll-anim-card-inner img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
-      display: block;
-    }
-
-    /* overlay labels on mockup */
-    .mockup-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: flex-end;
-      padding: 28px 32px;
-      background: linear-gradient(0deg, rgba(0,0,0,0.65) 0%, transparent 60%);
-    }
-
-    .mockup-tags {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .mockup-tag {
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(8px);
-      color: white;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 6px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .mockup-tag.coral { background: var(--coral); border-color: transparent; }
-
-    @media (max-width: 768px) {
-      .scroll-anim-section { height: 700px; }
-      .scroll-anim-card-inner { height: 300px; }
-      .scroll-anim-inner { padding: 32px 16px 0; }
-    }
-
     /* ── GRADIENT BUTTON ── */
     @property --pos-x        { syntax: '<percentage>'; initial-value: 11.14%;  inherits: false; }
     @property --pos-y        { syntax: '<percentage>'; initial-value: 140%;    inherits: false; }
@@ -1096,11 +986,6 @@
     }
     input::placeholder, textarea::placeholder { color: #475569; }
     label { color: #cbd5e1; }
-
-    /* Scroll anim section */
-    .scroll-anim-section { background: transparent !important; }
-    .scroll-anim-title h2 { color: #f1f5f9; }
-    .scroll-anim-title p { color: #94a3b8; }
 
     /* Footer */
     footer {
@@ -1731,44 +1616,6 @@
 </footer>
 
 <script>
-  // ── CONTAINER SCROLL ANIMATION ──
-  (function () {
-    const section = document.getElementById('scroll-anim-section');
-    const card    = document.getElementById('scroll-anim-card');
-    const title   = document.getElementById('scroll-anim-title');
-    if (!section || !card || !title) return;
-
-    const isMobile = () => window.innerWidth <= 768;
-
-    function lerp(a, b, t) { return a + (b - a) * t; }
-
-    function clamp(val, min, max) { return Math.min(Math.max(val, min), max); }
-
-    function onScroll() {
-      const rect   = section.getBoundingClientRect();
-      const total  = section.offsetHeight - window.innerHeight;
-      // progress 0 → 1 as section scrolls through viewport
-      const raw    = -rect.top / (total || 1);
-      const prog   = clamp(raw, 0, 1);
-
-      // rotateX: 20 → 0
-      const rotateX = lerp(20, 0, prog);
-
-      // scale: 1.05 → 1  (mobile: 0.7 → 0.9)
-      const [scaleStart, scaleEnd] = isMobile() ? [0.7, 0.9] : [1.05, 1];
-      const scale = lerp(scaleStart, scaleEnd, prog);
-
-      // translateY title: 0 → -80px
-      const ty = lerp(0, -80, prog);
-
-      card.style.transform  = `rotateX(${rotateX}deg) scale(${scale})`;
-      title.style.transform = `translateY(${ty}px)`;
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll(); // init on load
-  })();
-
   // FAQ toggle
   function toggleFaq(el) {
     const item = el.parentElement;
