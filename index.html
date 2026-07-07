@@ -1036,12 +1036,22 @@
       color: var(--fg);
       box-shadow: 0 30px 80px rgba(0,0,0,0.28);
       overflow: hidden;
+      will-change: transform, filter;
     }
+    /* highlight subtil de sus (sursă de lumină) pentru adâncime premium */
+    .service-stack-card::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(120% 80% at 50% -12%, rgba(255,255,255,0.13) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .service-stack-card > * { position: relative; z-index: 1; }
     .ssc-icon {
       width: 66px; height: 66px; border-radius: 18px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 32px; background: var(--chip);
+      color: var(--fg); background: var(--chip);
     }
+    .ssc-icon svg { width: 32px; height: 32px; }
     .service-stack-card h3 {
       font-family: 'Syne', sans-serif;
       font-size: clamp(1.8rem, 4.5vw, 2.8rem);
@@ -1158,13 +1168,112 @@
       .steps::before { display: none; }
     }
 
-    /* Reducerea mișcării dezactivează doar tranzițiile fade (auto-motion).
-       Stivuirea sticky e condusă de scroll-ul utilizatorului, deci o păstrăm
-       activă pentru toți — altfel efectul nu s-ar vedea cu „reduce motion" pornit. */
-    @media (prefers-reduced-motion: reduce) {
-      .fade-in { opacity: 1; transform: none; transition: none; }
-      .step { transition: border-color .25s ease, box-shadow .25s ease; }
+    /* Animațiile rulează pentru toți, indiferent de setarea „reduce motion"
+       din sistem, la cererea explicită a proprietarului site-ului. */
+
+    /* ── SCROLL PROGRESS BAR ── */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, var(--coral), #ff8a5c);
+      box-shadow: 0 0 12px rgba(232,86,58,0.6);
+      z-index: 1000;
+      transition: width .1s linear;
+      pointer-events: none;
     }
+
+    /* ── SCROLL REVEAL (data-reveal, direcțional + stagger) ── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(34px);
+      filter: blur(9px);
+      transition: opacity .7s ease, transform .8s cubic-bezier(.22,.61,.36,1), filter .8s ease;
+      transition-delay: var(--reveal-delay, 0s);
+    }
+    [data-reveal="left"]  { transform: translateX(-44px); }
+    [data-reveal="right"] { transform: translateX(44px); }
+    [data-reveal="zoom"]  { transform: scale(.9); }
+    [data-reveal].is-visible { opacity: 1; transform: none; filter: blur(0); }
+    /* stagger pentru lista de FAQ */
+    .faq-list .faq-item:nth-child(1) { --reveal-delay: 0s; }
+    .faq-list .faq-item:nth-child(2) { --reveal-delay: .08s; }
+    .faq-list .faq-item:nth-child(3) { --reveal-delay: .16s; }
+    .faq-list .faq-item:nth-child(4) { --reveal-delay: .24s; }
+    .faq-list .faq-item:nth-child(5) { --reveal-delay: .32s; }
+
+    /* iconițe SVG în tile-urile why / contact */
+    .why-icon, .contact-item-icon { color: var(--coral); }
+    .why-icon svg, .contact-item-icon svg { width: 22px; height: 22px; }
+
+    /* ── PREMIUM POLISH ── */
+    /* butoane: lift + glow la hover (micro-interacțiune) */
+    .btn-primary, .btn-secondary, .btn-white, .gradient-button, .nav-cta {
+      transition: transform .2s ease, box-shadow .3s ease, filter .2s ease;
+    }
+    .btn-primary:hover, .btn-secondary:hover, .btn-white:hover,
+    .gradient-button:hover, .nav-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 34px rgba(232,86,58,0.38);
+    }
+    .btn-primary:active, .btn-secondary:active, .gradient-button:active { transform: translateY(-1px); }
+
+    /* adâncime premium pe cardurile glass (highlight interior + umbră multi-strat) */
+    .step, .contact-item {
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 20px 50px rgba(0,0,0,0.28);
+    }
+    .service-stack-card {
+      box-shadow: 0 1px 0 rgba(255,255,255,0.10) inset, 0 30px 80px rgba(0,0,0,0.30);
+    }
+
+    /* typography editorial — tracking mai strâns pe titluri */
+    .hero h1 { letter-spacing: -0.03em; }
+    .section-title { letter-spacing: -0.02em; }
+
+    /* hero parallax/fade condus de scroll (valorile vin din JS) */
+    .hero { will-change: transform, opacity; position: relative; }
+
+    /* ═══ NEXT-LEVEL PREMIUM ═══ */
+    /* Hero: scrim radial → text cristalin peste fundalul animat */
+    .hero::before {
+      content: "";
+      position: absolute; inset: -8% 0 0 0;
+      background: radial-gradient(ellipse 68% 62% at 50% 44%, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.30) 46%, transparent 76%);
+      z-index: 0; pointer-events: none;
+    }
+    .hero > * { position: relative; z-index: 1; }
+    .hero h1 { text-shadow: 0 2px 34px rgba(0,0,0,0.60); }
+    .hero p  { text-shadow: 0 1px 18px rgba(0,0,0,0.55); }
+
+    /* Spotlight coral care urmărește mouse-ul (în spatele conținutului) */
+    .cursor-glow {
+      position: fixed; top: 0; left: 0;
+      width: 520px; height: 520px; margin: -260px 0 0 -260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232,86,58,0.18) 0%, rgba(232,86,58,0.07) 38%, transparent 70%);
+      pointer-events: none; z-index: -1;
+      opacity: 0; transition: opacity .5s ease;
+      transform: translate3d(-9999px,-9999px,0);
+    }
+
+    /* Film grain foarte fin (textură premium; nu afectează lizibilitatea) */
+    body::after {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 900;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Tilt 3D subtil pe carduri */
+    .why-features, .contact-info { perspective: 900px; }
+    .why-feature, .contact-item { transform-style: preserve-3d; transition: transform .2s ease, box-shadow .3s ease; }
+
+    /* Lizibilitate: contrast mai bun pe textul secundar */
+    .step p { color: rgba(255,255,255,0.84); }
+    .service-stack-card p { opacity: 1; }
+
+    /* Fără efecte de mouse pe dispozitive touch */
+    @media (hover: none) { .cursor-glow { display: none; } }
 
   </style>
 
@@ -1186,7 +1295,10 @@
 </head>
 <body>
 
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
 <canvas id="smoke-bg" aria-hidden="true"></canvas>
+<div class="cursor-glow" aria-hidden="true"></div>
 
 <!-- ═══════════════ NAV ═══════════════ -->
 <nav>
@@ -1211,12 +1323,12 @@
   </div>
   <h1>
     Dave Solve —<br />
-    <span class="accent" style="color:#ff6b3d;text-shadow:0 0 40px rgba(255,107,61,0.9),0 0 80px rgba(255,107,61,0.5);">transformă afacerea ta</span><br />
-    cu AI & site-uri moderne
+    <span class="accent" style="color:#ff6b3d;text-shadow:0 0 40px rgba(255,107,61,0.9),0 0 80px rgba(255,107,61,0.5);">site-uri și automatizări AI</span><br />
+    care îți aduc clienți
   </h1>
-  <p>Automatizări inteligente cu AI și site-uri profesionale livrate rapid. Economisești timp, câștigi clienți.</p>
+  <p>Îți construiesc site-ul și pun AI-ul să facă treaba repetitivă: emailuri, comenzi, rapoarte. Tu te ocupi de clienți, restul merge singur.</p>
   <div class="hero-btns">
-    <a href="#servicii" class="btn-primary">Descoperă serviciile</a>
+    <a href="#servicii" class="btn-primary">Vezi cu ce te ajut</a>
     <a href="https://cal.com/david-marcu-fc2u1p" rel="noopener" data-cal-link="david-marcu-fc2u1p" class="btn-secondary gradient-button">Vorbim gratuit →</a>
   </div>
   <div class="hero-stats">
@@ -1226,7 +1338,7 @@
     </div>
     <div class="stat">
       <div class="stat-num">200€</div>
-      <div class="stat-label">Preț site de la</div>
+      <div class="stat-label">Preț de pornire</div>
     </div>
     <div class="stat">
       <div class="stat-num">48h</div>
@@ -1234,7 +1346,7 @@
     </div>
     <div class="stat">
       <div class="stat-num">100%</div>
-      <div class="stat-label">Satisfacție garantată</div>
+      <div class="stat-label">Clienți mulțumiți</div>
     </div>
   </div>
 </section>
@@ -1244,8 +1356,8 @@
   <div class="container">
     <div class="section-header centered fade-in">
       <span class="section-label">Cum funcționează</span>
-      <h2 class="section-title">De la idee la <span class="accent" style="color: var(--coral);">rezultat concret</span><br />— totul în câteva zile</h2>
-      <p class="section-sub">Automatizări AI și site-uri profesionale care lucrează pentru tine non-stop.</p>
+      <h2 class="section-title">De la idee la <span class="accent" style="color: var(--coral);">rezultat</span>, în doar câteva zile</h2>
+      <p class="section-sub">Îți fac site-ul și automatizările care lucrează și când tu dormi.</p>
     </div>
     <div class="steps">
       <div class="step fade-in">
@@ -1280,44 +1392,52 @@
 <section class="services" id="servicii">
   <div class="container">
     <div class="section-header centered fade-in">
-      <span class="section-label">Serviciile noastre</span>
-      <h2 class="section-title">Tot ce ai nevoie pentru afacerea ta</h2>
-      <p class="section-sub">De la automatizări AI la site-uri moderne — livrăm soluții care funcționează.</p>
+      <span class="section-label">Serviciile mele</span>
+      <h2 class="section-title">Patru moduri în care te ajut</h2>
+      <p class="section-sub">Site-uri, automatizări, chatboți și fluxuri de vânzări. Toate făcute să-ți aducă clienți.</p>
     </div>
     <div class="service-stack">
       <div class="service-stack-item">
         <article class="service-stack-card" style="--bg:#E8563A; --fg:#ffffff; --chip:rgba(255,255,255,0.18);">
           <span class="ssc-index">01</span>
-          <div class="ssc-icon">🤖</div>
+          <div class="ssc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+          </div>
           <h3>Automatizări AI</h3>
-          <p>Automatizăm procese repetitive: răspunsuri email, generare conținut, rapoarte, preluare comenzi — cu ajutorul AI-ului.</p>
+          <p>Pun AI-ul să facă ce faci tu manual acum: răspunsuri la emailuri, rapoarte, conținut, preluare de comenzi.</p>
           <span class="ssc-tag">GPT · Make · n8n</span>
         </article>
       </div>
       <div class="service-stack-item">
         <article class="service-stack-card" style="--bg:#1a1a1a; --fg:#ffffff; --chip:rgba(255,255,255,0.12);">
           <span class="ssc-index">02</span>
-          <div class="ssc-icon">🌐</div>
+          <div class="ssc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          </div>
           <h3>Site-uri Profesionale</h3>
-          <p>Landing pages și site-uri de prezentare moderne, rapide și optimizate pentru mobil. Livrate în 48–72h.</p>
+          <p>Site-uri de prezentare și landing page-uri rapide, care arată bine și pe telefon. Gata în 48–72h.</p>
           <span class="ssc-tag">de la 200€</span>
         </article>
       </div>
       <div class="service-stack-item">
         <article class="service-stack-card" style="--bg:#fdf1ee; --fg:#1a1a1a; --chip:rgba(26,26,26,0.07);">
           <span class="ssc-index">03</span>
-          <div class="ssc-icon">💬</div>
+          <div class="ssc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+          </div>
           <h3>Chatbot AI pentru Afaceri</h3>
-          <p>Chatbot personalizat pe site-ul tău care răspunde clienților 24/7, preia comenzi și califică lead-uri automat.</p>
+          <p>Un chatbot pe site-ul tău care răspunde clienților la orice oră, preia comenzi și îți filtrează lead-urile.</p>
           <span class="ssc-tag">Disponibil 24/7</span>
         </article>
       </div>
       <div class="service-stack-item">
         <article class="service-stack-card" style="--bg:linear-gradient(135deg,#E8563A,#c94525); --fg:#ffffff; --chip:rgba(255,255,255,0.18);">
           <span class="ssc-index">04</span>
-          <div class="ssc-icon">📈</div>
+          <div class="ssc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          </div>
           <h3>Fluxuri de Vânzări AI</h3>
-          <p>Sisteme automate de follow-up, emailuri personalizate și CRM inteligent care transformă lead-urile în clienți.</p>
+          <p>Follow-up automat, emailuri care par scrise de mână și un CRM care ține minte tot. Nu-ți mai scapă niciun lead.</p>
           <span class="ssc-tag">Conversii mai mari</span>
         </article>
       </div>
@@ -1332,57 +1452,65 @@
       <div>
         <div class="section-header fade-in">
           <span class="section-label">De ce Dave Solve?</span>
-          <h2 class="section-title">Rezultate reale,<br />nu promisiuni</h2>
-          <p class="section-sub">Lucrez direct cu tine, fără agenție intermediară. Fiecare soluție e construită specific pentru afacerea ta.</p>
+          <h2 class="section-title">Direct cu mine,<br />de la un cap la altul</h2>
+          <p class="section-sub">Vorbești direct cu mine și fac fiecare proiect pe nevoile tale, nu pe un șablon copiat.</p>
         </div>
         <div class="why-features">
-          <div class="why-feature fade-in">
-            <div class="why-icon">⚡</div>
+          <div class="why-feature" data-reveal="left" style="--reveal-delay:0s">
+            <div class="why-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+            </div>
             <div>
               <h4>Livrare rapidă</h4>
-              <p>Site-urile sunt gata în 48–72h. Automatizările sunt implementate în maxim 1 săptămână.</p>
+              <p>Site-ul e gata în 48–72h. Automatizările, în maxim o săptămână.</p>
             </div>
           </div>
-          <div class="why-feature fade-in">
-            <div class="why-icon">🎯</div>
+          <div class="why-feature" data-reveal="left" style="--reveal-delay:.1s">
+            <div class="why-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
             <div>
-              <h4>Soluții personalizate</h4>
-              <p>Nu template-uri generice. Fiecare proiect e adaptat nevoilor și industrie tale specifice.</p>
+              <h4>Făcut pe măsură</h4>
+              <p>Fiecare proiect pornește de la afacerea ta și de la ce ai nevoie tu, punctual.</p>
             </div>
           </div>
-          <div class="why-feature fade-in">
-            <div class="why-icon">💡</div>
+          <div class="why-feature" data-reveal="left" style="--reveal-delay:.2s">
+            <div class="why-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
             <div>
-              <h4>Prețuri corecte</h4>
-              <p>Fără costuri ascunse. Prețul agreat la început rămâne același la final.</p>
+              <h4>Preț clar</h4>
+              <p>Cât stabilim la început, atât plătești. Fără costuri ascunse pe parcurs.</p>
             </div>
           </div>
-          <div class="why-feature fade-in">
-            <div class="why-icon">🔧</div>
+          <div class="why-feature" data-reveal="left" style="--reveal-delay:.3s">
+            <div class="why-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>
+            </div>
             <div>
-              <h4>Suport continuu</h4>
-              <p>Nu dispar după livrare. Rămân disponibil pentru modificări și suport tehnic.</p>
+              <h4>Rămân pe fază</h4>
+              <p>Nu dispar după ce livrez. Mă găsești oricând pentru modificări sau întrebări.</p>
             </div>
           </div>
         </div>
       </div>
-      <div class="why-visual fade-in">
+      <div class="why-visual" data-reveal="right">
         <h3>Cum funcționează?</h3>
         <div class="why-step">
           <div class="step-num">1</div>
-          <div class="step-text">Discuție gratuită — înțeleg exact ce ai nevoie</div>
+          <div class="step-text">Vorbim o dată, gratuit, și înțeleg ce-ți trebuie</div>
         </div>
         <div class="why-step">
           <div class="step-num">2</div>
-          <div class="step-text">Propun soluția potrivită și stabilim prețul</div>
+          <div class="step-text">Îți propun o soluție și îți spun prețul</div>
         </div>
         <div class="why-step">
           <div class="step-num">3</div>
-          <div class="step-text">Construiesc și livrezi — feedback la fiecare pas</div>
+          <div class="step-text">Construiesc și îți arăt progresul pe parcurs</div>
         </div>
         <div class="why-step">
           <div class="step-num">4</div>
-          <div class="step-text">Lansare + suport post-livrare inclus</div>
+          <div class="step-text">Lansăm, și rămân disponibil și după</div>
         </div>
       </div>
     </div>
@@ -1394,13 +1522,13 @@
   <div class="container">
     <div class="section-header centered fade-in">
       <span class="section-label">Prețuri</span>
-      <h2 class="section-title">Transparent și corect</h2>
+      <h2 class="section-title">Cât costă</h2>
 
     </div>
-    <div class="pricing-call-box fade-in">
+    <div class="pricing-call-box" data-reveal="zoom">
       <div class="pricing-call-icon">📞</div>
-      <h3>Prețul se stabilește împreună</h3>
-      <p>Fiecare proiect este unic. Nu cred în pachete fixe care nu se potrivesc nevoilor reale — de aceea prefer să discutăm direct, 1-la-1, să înțeleg exact ce vrei și să îți ofer un preț corect, personalizat.</p>
+      <h3>Stabilim prețul împreună</h3>
+      <p>Nu am pachete fixe, pentru că fiecare proiect e diferit. Vorbim 1-la-1, îmi spui ce vrei și îți dau un preț pe măsură.</p>
       <div class="pricing-call-steps">
         <div class="pricing-call-step">
           <span class="step-circle">1</span>
@@ -1408,11 +1536,11 @@
         </div>
         <div class="pricing-call-step">
           <span class="step-circle">2</span>
-          <span>Discutăm nevoile tale în detaliu</span>
+          <span>Îmi spui ce ai nevoie</span>
         </div>
         <div class="pricing-call-step">
           <span class="step-circle">3</span>
-          <span>Primești o ofertă clară și transparentă</span>
+          <span>Primești o ofertă clară, fără mărunt scris</span>
         </div>
       </div>
       <a href="https://cal.com/david-marcu-fc2u1p" rel="noopener" data-cal-link="david-marcu-fc2u1p" class="btn-primary gradient-button" style="font-size:1.05rem;padding:16px 40px;">Programează apelul gratuit →</a>
@@ -1455,7 +1583,7 @@
       <h2 class="section-title">Întrebări frecvente</h2>
     </div>
     <div class="faq-list">
-      <div class="faq-item fade-in">
+      <div class="faq-item" data-reveal="up">
         <div class="faq-question" onclick="toggleFaq(this)">
           Ce este o automatizare AI și cum mă ajută?
           <span class="faq-toggle">+</span>
@@ -1464,7 +1592,7 @@
           O automatizare AI este un flux care face muncă repetitivă în locul tău: trimite emailuri automat, preia și procesează comenzi, generează rapoarte, răspunde la mesaje. Practic, AI-ul lucrează pentru tine 24/7 fără să obosească.
         </div>
       </div>
-      <div class="faq-item fade-in">
+      <div class="faq-item" data-reveal="up">
         <div class="faq-question" onclick="toggleFaq(this)">
           În cât timp îmi livrezi un site?
           <span class="faq-toggle">+</span>
@@ -1473,7 +1601,7 @@
           Un landing page standard este gata în 48–72 de ore de la momentul în care îmi oferi materialele (logo, text, imagini). Dacă ai nevoie de ceva mai complex, stabilim un termen realist împreună.
         </div>
       </div>
-      <div class="faq-item fade-in">
+      <div class="faq-item" data-reveal="up">
         <div class="faq-question" onclick="toggleFaq(this)">
           Am nevoie de cunoștințe tehnice pentru a folosi automatizările?
           <span class="faq-toggle">+</span>
@@ -1482,7 +1610,7 @@
           Nu. Îți livrez totul configurat și funcțional. Includ și un scurt training astfel încât să înțelegi cum funcționează, și rămân disponibil dacă ai întrebări sau vrei modificări.
         </div>
       </div>
-      <div class="faq-item fade-in">
+      <div class="faq-item" data-reveal="up">
         <div class="faq-question" onclick="toggleFaq(this)">
           Ce se întâmplă după ce îmi livrezi proiectul?
           <span class="faq-toggle">+</span>
@@ -1491,7 +1619,7 @@
           Rămân disponibil pentru suport tehnic. Fiecare pachet include o perioadă de suport gratuit (1–3 luni în funcție de pachet). După aceea, orice modificare se poate discuta separat.
         </div>
       </div>
-      <div class="faq-item fade-in">
+      <div class="faq-item" data-reveal="up">
         <div class="faq-question" onclick="toggleFaq(this)">
           Lucrezi cu orice tip de afacere?
           <span class="faq-toggle">+</span>
@@ -1507,8 +1635,8 @@
 <!-- ═══════════════ CTA ═══════════════ -->
 <section class="cta-banner">
   <div class="container">
-    <h2>Gata să transformi afacerea ta?</h2>
-    <p>Prima discuție e gratuită. Îți spun exact ce soluție ți se potrivește și cât costă.</p>
+    <h2>Hai să vorbim</h2>
+    <p>Prima discuție e gratuită. Îmi zici ce vrei, îți spun ce se poate face și cât costă.</p>
     <a href="https://cal.com/david-marcu-fc2u1p" rel="noopener" data-cal-link="david-marcu-fc2u1p" class="btn-white gradient-button">Programează discuția gratuită</a>
   </div>
 </section>
@@ -1519,40 +1647,48 @@
     <div class="section-header centered fade-in">
       <span class="section-label">Contact</span>
       <h2 class="section-title">Contactează-mă</h2>
-      <p class="section-sub">Scrie-mi și îți răspund în maxim 24h cu o propunere clară.</p>
+      <p class="section-sub">Scrie-mi două rânduri despre ce ai nevoie. Îți răspund în maxim 24h.</p>
     </div>
     <div class="contact-grid">
-      <div class="contact-info fade-in">
+      <div class="contact-info" data-reveal="left">
         <div class="contact-item">
-          <div class="contact-item-icon">📧</div>
+          <div class="contact-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
           <div>
             <h4>Email</h4>
             <p>davesolve25@gmail.com</p>
           </div>
         </div>
         <div class="contact-item">
-          <div class="contact-item-icon">📱</div>
+          <div class="contact-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
           <div>
             <h4>WhatsApp / Telefon</h4>
             <p>0752 937 440</p>
           </div>
         </div>
         <div class="contact-item">
-          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
           <div>
             <h4>Locație</h4>
             <p>România (lucrez remote)</p>
           </div>
         </div>
         <div class="contact-item">
-          <div class="contact-item-icon">🕐</div>
+          <div class="contact-item-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
           <div>
             <h4>Program</h4>
             <p>Luni–Vineri, 9:00–18:00</p>
           </div>
         </div>
       </div>
-      <form class="contact-form fade-in" onsubmit="handleSubmit(event)">
+      <form class="contact-form" data-reveal="right" onsubmit="handleSubmit(event)">
         <div class="form-row">
           <div class="form-group">
             <label for="name">Nume</label>
@@ -1635,6 +1771,138 @@
   }, { threshold: 0.12 });
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Scroll reveal (direcțional + stagger)
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-visible'); revealObserver.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+
+  // Premium stacking: cardul acoperit se micșorează + se întunecă (efect de teanc 3D)
+  (function () {
+    const items = [...document.querySelectorAll('.service-stack-item')];
+    if (!items.length) return;
+    const cards = items.map(it => it.querySelector('.service-stack-card'));
+    let tops = [];
+    const measure = () => {
+      tops = items.map(it => { let y = 0, el = it; while (el) { y += el.offsetTop; el = el.offsetParent; } return y; });
+    };
+    let ticking = false;
+    function update() {
+      const vh = window.innerHeight, sy = window.scrollY;
+      for (let i = 0; i < items.length; i++) {
+        const card = cards[i];
+        if (i === items.length - 1) { card.style.transform = ''; card.style.filter = ''; continue; }
+        let p = (sy - tops[i]) / vh;
+        p = p < 0 ? 0 : p > 1 ? 1 : p;
+        const e = p * p; // ease: rămâne întreg mai mult, se micșorează spre final
+        card.style.transform = 'scale(' + (1 - e * 0.11) + ')';
+        card.style.filter = 'brightness(' + (1 - e * 0.45) + ')';
+      }
+      ticking = false;
+    }
+    measure();
+    update();
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    window.addEventListener('resize', () => { measure(); update(); }, { passive: true });
+  })();
+
+  // Bară de progres la scroll
+  const progressBar = document.getElementById('scrollProgress');
+  if (progressBar) {
+    const updateProgress = () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
+
+  // Hero parallax + fade la scroll (premium, condus de rAF)
+  const heroEl = document.querySelector('.hero');
+  if (heroEl) {
+    let heroTicking = false;
+    const updateHero = () => {
+      const y = window.scrollY, vh = window.innerHeight;
+      if (y <= vh) {
+        // fade + zoom-out subtil (fără drift în jos → nu se mai suprapune peste secțiunea următoare)
+        const p = Math.min(y / (vh * 0.5), 1);
+        heroEl.style.opacity = String(1 - p);
+        heroEl.style.transform = 'scale(' + (1 - p * 0.04) + ')';
+      }
+      heroTicking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!heroTicking) { requestAnimationFrame(updateHero); heroTicking = true; }
+    }, { passive: true });
+    updateHero();
+  }
+
+  // Spotlight coral care urmărește mouse-ul (desktop, rAF-throttled)
+  (function () {
+    if (matchMedia('(hover: none)').matches) return;
+    const glow = document.querySelector('.cursor-glow');
+    if (!glow) return;
+    let mx = 0, my = 0, gTick = false, shown = false;
+    const move = () => {
+      glow.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)';
+      if (!shown) { glow.style.opacity = '1'; shown = true; }
+      gTick = false;
+    };
+    document.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      if (!gTick) { requestAnimationFrame(move); gTick = true; }
+    }, { passive: true });
+    document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; shown = false; });
+  })();
+
+  // Tilt 3D subtil pe carduri (doar cardul survolat, rAF)
+  (function () {
+    if (matchMedia('(hover: none)').matches) return;
+    const MAX = 6;
+    document.querySelectorAll('.why-feature, .contact-item').forEach(card => {
+      let raf = false, ev = null;
+      card.addEventListener('mousemove', (e) => {
+        ev = e;
+        if (raf) return; raf = true;
+        requestAnimationFrame(() => {
+          const r = card.getBoundingClientRect();
+          const px = (ev.clientX - r.left) / r.width - 0.5;
+          const py = (ev.clientY - r.top) / r.height - 0.5;
+          card.style.transform = 'perspective(900px) rotateY(' + (px * MAX) + 'deg) rotateX(' + (-py * MAX) + 'deg) translateY(-4px)';
+          raf = false;
+        });
+      }, { passive: true });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  })();
+
+  // Contoare animate la statistici (count-up când intră în cadru)
+  (function () {
+    const stats = document.querySelectorAll('.stat-num');
+    if (!stats.length) return;
+    const run = (el) => {
+      const m = el.textContent.trim().match(/^(\d+)(.*)$/);
+      if (!m) return;
+      const target = parseInt(m[1], 10), suffix = m[2];
+      const dur = 1500, start = performance.now();
+      const tick = (now) => {
+        const t = Math.min((now - start) / dur, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    const so = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { run(e.target); so.unobserve(e.target); } });
+    }, { threshold: 0.6 });
+    stats.forEach(s => so.observe(s));
+  })();
 
   // Form submit
   function handleSubmit(e) {
@@ -1814,7 +2082,7 @@ void main(){
 
     // ── Resize ───────────────────────────────
     function resize() {
-      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const dpr = Math.min(Math.max(1, window.devicePixelRatio || 1), 1.5);
       canvas.width  = window.innerWidth  * dpr;
       canvas.height = window.innerHeight * dpr;
       gl.viewport(0, 0, canvas.width, canvas.height);
@@ -1823,6 +2091,7 @@ void main(){
     window.addEventListener('resize', resize, { passive: true });
 
     // ── Render loop ──────────────────────────
+    let rafId;
     function render(now) {
       gl.useProgram(prg);
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
@@ -1830,9 +2099,14 @@ void main(){
       gl.uniform1f(uTime, now * 1e-3);
       gl.uniform3fv(uColor, smokeColor);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      requestAnimationFrame(render);
+      rafId = requestAnimationFrame(render);
     }
-    requestAnimationFrame(render);
+    rafId = requestAnimationFrame(render);
+    // performanță: oprește randarea cât timp tab-ul e ascuns
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { cancelAnimationFrame(rafId); }
+      else { rafId = requestAnimationFrame(render); }
+    });
   })();
 
 </script>
