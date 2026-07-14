@@ -1320,23 +1320,76 @@
     /* Fără efecte de mouse pe dispozitive touch */
     @media (hover: none) { .cursor-glow { display: none; } }
 
+    /* ── BANNER COOKIES (GDPR) ── */
+    .cookie-banner {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      width: min(600px, calc(100% - 32px));
+      z-index: 1200;
+      display: none;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 22px;
+      border-radius: 16px;
+      background: rgba(18,18,22,0.92);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      opacity: 0;
+      transition: opacity .4s ease, transform .4s ease;
+    }
+    .cookie-banner.show { display: flex; opacity: 1; transform: translateX(-50%) translateY(0); }
+    .cookie-text {
+      flex: 1;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+      margin: 0;
+    }
+    .cookie-text a { color: var(--coral); font-weight: 600; text-decoration: underline; }
+    .cookie-actions { display: flex; gap: 12px; flex-shrink: 0; }
+    /* Ambele butoane au aceeași greutate vizuală (fără dark pattern):
+       aceeași dimensiune, același font, ambele clar vizibile. */
+    .cookie-btn {
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 11px 26px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+    }
+    .cookie-btn:hover { transform: translateY(-2px); }
+    .cookie-accept { background: var(--coral); color: #fff; }
+    .cookie-accept:hover { background: var(--coral-dark); }
+    .cookie-reject {
+      background: rgba(255,255,255,0.08);
+      color: #f1f5f9;
+      border-color: rgba(255,255,255,0.28);
+    }
+    .cookie-reject:hover { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.45); }
+
+    @media (max-width: 640px) {
+      .cookie-banner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        bottom: 96px; /* deasupra widget-ului de chatbot din colțul dreapta-jos */
+        padding: 18px;
+      }
+      .cookie-actions { justify-content: stretch; }
+      .cookie-btn { flex: 1; padding: 13px 20px; }
+    }
+
   </style>
 
-  <!-- Meta Pixel Code -->
-  <script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
-    (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init','4485448995046868');
-    fbq('track','PageView');
-  </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=4485448995046868&ev=PageView&noscript=1" />
-  </noscript>
-  <!-- End Meta Pixel Code -->
+  <!-- Meta Pixel: NU se încarcă automat. Pornește doar din loadMetaPixel(),
+       apelat exclusiv după consimțământ (banner cookies / localStorage). -->
+
 </head>
 <body>
 
@@ -1344,6 +1397,18 @@
 
 <canvas id="smoke-bg" aria-hidden="true"></canvas>
 <div class="cursor-glow" aria-hidden="true"></div>
+
+<!-- ═══════════════ BANNER COOKIES (GDPR) ═══════════════ -->
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Consimțământ cookies">
+  <p class="cookie-text">
+    Folosim cookies pentru a analiza traficul și a îmbunătăți experiența. Poți accepta sau refuza cookie-urile de marketing.
+    <a href="/politica-cookies.html">Politica de Cookies</a>
+  </p>
+  <div class="cookie-actions">
+    <button type="button" class="cookie-btn cookie-reject" onclick="cookieConsent('rejected')">Refuz</button>
+    <button type="button" class="cookie-btn cookie-accept" onclick="cookieConsent('accepted')">Accept</button>
+  </div>
+</div>
 
 <!-- ═══════════════ NAV ═══════════════ -->
 <nav>
@@ -1803,6 +1868,35 @@
 </footer>
 
 <script>
+  // ── COOKIES / GDPR: Meta Pixel doar după consimțământ ──
+  function loadMetaPixel() {
+    if (window.fbq) return; // deja încărcat, nu dubla
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+    (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init','4485448995046868');
+    fbq('track','PageView');
+  }
+
+  function cookieConsent(choice) {
+    try { localStorage.setItem('cookie_consent', choice); } catch (e) {}
+    const banner = document.getElementById('cookieBanner');
+    if (banner) banner.classList.remove('show');
+    if (choice === 'accepted') loadMetaPixel();
+  }
+
+  (function () {
+    let consent = null;
+    try { consent = localStorage.getItem('cookie_consent'); } catch (e) {}
+    if (consent === 'accepted') { loadMetaPixel(); return; }
+    if (consent === 'rejected') { return; }
+    // niciun răspuns încă → arată banner-ul, nu încărca pixel-ul
+    const banner = document.getElementById('cookieBanner');
+    if (banner) banner.classList.add('show');
+  })();
+
   // FAQ toggle
   function toggleFaq(el) {
     const item = el.parentElement;
